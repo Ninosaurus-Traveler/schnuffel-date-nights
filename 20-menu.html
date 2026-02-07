@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Menü 🌻</title>
+
+  <link rel="stylesheet" href="/Geburtstag/60-css/style.css" />
+</head>
+<body>
+
+  <main class="menu-container">
+
+    <div class="sunflower">
+
+      <!-- Blüte -->
+      <div class="flower-head">
+        <span>🌻</span>
+      </div>
+
+      <!-- Stängel + Blätter -->
+      <div class="stem">
+
+        <a href="/Geburtstag/40-dates/index.html"
+           class="leaf left">
+          💕 Dates
+        </a>
+
+        <a href="/Geburtstag/50-collection/date-list.html"
+           class="leaf right">
+          💡 Date Liste
+        </a>
+
+      </div>
+
+      <!-- Boden -->
+      <div class="ground"></div>
+
+    </div>
+    <div class="anim-toggle">
+  <label>
+    <input type="checkbox" id="animationToggle" checked />
+    <span class="slider"></span>
+    <span class="label-text">Animation</span>
+  </label>
+</div>
+
+  </main>
+<script>
+  const sunflower = document.querySelector(".sunflower");
+  const toggle = document.getElementById("animationToggle");
+
+  const animationEnabled =
+    localStorage.getItem("menuAnimation") !== "off";
+
+  toggle.checked = animationEnabled;
+
+  function playAnimation() {
+    sunflower.classList.remove(
+      "grow-stem",
+      "grow-leaves",
+      "bloom",
+      "menu-active"
+    );
+
+    setTimeout(() => sunflower.classList.add("grow-stem"), 200);
+    setTimeout(() => sunflower.classList.add("grow-leaves"), 1000);
+    setTimeout(() => sunflower.classList.add("bloom"), 1800);
+    setTimeout(() => sunflower.classList.add("menu-active"), 2300);
+  }
+
+  function showInstant() {
+    sunflower.classList.add(
+      "grow-stem",
+      "grow-leaves",
+      "bloom",
+      "menu-active"
+    );
+  }
+
+  if (animationEnabled) {
+    playAnimation();
+  } else {
+    showInstant();
+  }
+
+  toggle.addEventListener("change", () => {
+    if (toggle.checked) {
+      localStorage.setItem("menuAnimation", "on");
+      playAnimation();
+    } else {
+      localStorage.setItem("menuAnimation", "off");
+      showInstant();
+    }
+  });
+</script>
+
+</body>
+</html>

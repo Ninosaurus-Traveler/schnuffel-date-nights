@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Keramik-/ Töpferkurs 🏺🤍</title>
+
+  <link rel="stylesheet" href="/Geburtstag/60-css/style.css" />
+</head>
+<body>
+
+  <main class="container">
+    <h1>Keramik-/ Töpferkurs 🏺🤍</h1>
+
+    <p class="subtitle">
+      März · Mit den Händen · Erschaffen · Laras Oma?
+    </p>
+
+    <!-- Erinnerung -->
+    <section class="date-section">
+      <h2>Unsere Erinnerung</h2>
+      <textarea
+        id="memoryText"
+        placeholder="Schreib hier unsere Erinnerung 💕">
+      </textarea>
+    </section>
+
+    <!-- Bilder -->
+    <section class="date-section">
+      <h2>Fotos 📸</h2>
+
+      <input type="file" id="imageInput" accept="image/*">
+      <div id="imageGallery"></div>
+    </section>
+
+    <!-- Erledigt Button -->
+    <button id="doneBtn" class="done-button">
+      ❤️ Date erledigt
+    </button>
+
+    <a href="../../months/maerz.html" class="button-link">
+      ← Zurück zum März
+    </a>
+  </main>
+
+  <!-- ALLE LOGIK AN EINEM ORT -->
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+
+      /* =========================
+         IDENTITÄT DER SEITE
+      ========================= */
+      const month = "maerz";
+      const dateId = "toepfern";
+
+      /* =========================
+         ERLEDIGT-STATUS
+      ========================= */
+      const doneBtn = document.getElementById("doneBtn");
+      const datesData = JSON.parse(localStorage.getItem("dates")) || {};
+
+      if (datesData[month]?.[dateId]) {
+        doneBtn.textContent = "✨ Schon erledigt";
+        doneBtn.disabled = true;
+      }
+
+      doneBtn.addEventListener("click", () => {
+        const updated = JSON.parse(localStorage.getItem("dates")) || {};
+        updated[month] = updated[month] || {};
+        updated[month][dateId] = true;
+
+        localStorage.setItem("dates", JSON.stringify(updated));
+        doneBtn.textContent = "✨ Schon erledigt";
+        doneBtn.disabled = true;
+      });
+
+      /* =========================
+         ERINNERUNGSTEXT
+      ========================= */
+      const memoryField = document.getElementById("memoryText");
+      const memoryKey = `${month}_${dateId}_memory`;
+
+      // Laden
+      memoryField.value = localStorage.getItem(memoryKey) || "";
+
+      // Speichern
+      memoryField.addEventListener("input", () => {
+        localStorage.setItem(memoryKey, memoryField.value);
+      });
+
+      /* =========================
+         BILDER
+      ========================= */
+      const imageInput = document.getElementById("imageInput");
+      const imageGallery = document.getElementById("imageGallery");
+      const imageKey = `${month}_${dateId}_images`;
+
+      const storedImages = JSON.parse(localStorage.getItem(imageKey)) || [];
+      storedImages.forEach(src => addImage(src));
+
+      imageInput.addEventListener("change", () => {
+        const file = imageInput.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = () => {
+          storedImages.push(reader.result);
+          localStorage.setItem(imageKey, JSON.stringify(storedImages));
+          addImage(reader.result);
+        };
+        reader.readAsDataURL(file);
+        imageInput.value = "";
+      });
+
+      function addImage(src) {
+        const img = document.createElement("img");
+        img.src = src;
+        img.style.width = "100px";
+        img.style.borderRadius = "10px";
+        imageGallery.appendChild(img);
+      }
+
+    });
+  </script>
+
+</body>
+</html>

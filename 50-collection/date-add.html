@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Neues Date hinzufügen 💕</title>
+
+  <link rel="stylesheet" href="../60-css/style.css" />
+  <script src="../70-js/collection.js" defer></script>
+</head>
+<body>
+
+  <main class="container">
+
+    <h1>Neues Date 💕</h1>
+
+    <p class="subtitle">
+      Eine neue Idee für schöne gemeinsame Momente ✨
+    </p>
+
+    <form id="addDateForm" class="date-form">
+
+      <label>
+        Emoji
+        <input type="text" id="dateEmoji" placeholder="🍿" maxlength="2" required />
+      </label>
+
+      <label>
+        Titel
+        <input type="text" id="dateTitle" placeholder="Kinoabend zuhause" required />
+      </label>
+
+      <label>
+        Tags (3–4 Wörter, Komma-getrennt)
+        <input
+          type="text"
+          id="dateTags"
+          placeholder="ruhig, gemütlich, drinnen"
+          required
+        />
+      </label>
+
+      <button type="button" id="addAnotherBtn" class="button-link">
+        ➕ Add one more date
+      </button>
+
+      <button type="submit" class="button-link primary">
+        💾 Save
+      </button>
+
+    </form>
+
+    <a href="/Geburtstag/50-collection/date-list.html"
+       class="button-link secondary">
+      ← Zurück zur Date Liste
+    </a>
+
+  </main>
+
+</body>
+</html>
