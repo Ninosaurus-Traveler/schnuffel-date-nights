@@ -1,13 +1,12 @@
-// =========================
-// DATE COLLECTION
-// =========================
-
 const dateListEl = document.getElementById("dateList");
+const editBtn = document.getElementById("editDateListBtn");
+const addForm = document.getElementById("addDateForm");
+
+let editMode = false;
 
 // =========================
-// INIT DATE COLLECTION
+// INIT DEFAULT DATES
 // =========================
-
 const defaultDates = [
   {
     id: "kinoabend",
@@ -29,7 +28,6 @@ const defaultDates = [
   }
 ];
 
-// 👉 EINMALIG initialisieren
 if (!localStorage.getItem("dateCollection")) {
   localStorage.setItem(
     "dateCollection",
@@ -37,69 +35,165 @@ if (!localStorage.getItem("dateCollection")) {
   );
 }
 
-// Ab jetzt IMMER aus localStorage lesen
-const dateCollection =
-  JSON.parse(localStorage.getItem("dateCollection"));
+// =========================
+// HELPERS
+// =========================
+function getCollection() {
+  return JSON.parse(localStorage.getItem("dateCollection")) || [];
+}
 
+function saveCollection(data) {
+  localStorage.setItem("dateCollection", JSON.stringify(data));
+}
 
-// Anzeigen
-if (dateListEl) {
-  dateCollection.forEach(date => {
+// =========================
+// RENDER DATE LIST
+// =========================
+function renderDateList() {
+  if (!dateListEl) return;
+
+  dateListEl.innerHTML = "";
+
+  const dateCollection = getCollection();
+  const selectedDates =
+    JSON.parse(localStorage.getItem("selectedDates")) || {};
+
+  dateCollection.forEach((date, index) => {
     const card = document.createElement("div");
     card.className = "date-card";
 
-    card.innerHTML = `
-      <div class="date-title">${date.title}</div>
-      <div class="date-tags">
-        ${date.tags.map(tag => `<span>#${tag}</span>`).join("")}
-      </div>
-    `;
+   const titleWrapper = document.createElement("div");
+titleWrapper.className = "date-title-wrapper";
 
+const titleEl = document.createElement("div");
+titleEl.className = "date-title";
+titleEl.textContent = date.title;
+titleEl.contentEditable = editMode;
+
+const saveIcon = document.createElement("span");
+saveIcon.className = "save-icon";
+saveIcon.textContent = "💾";
+
+if (!editMode) {
+  saveIcon.style.display = "none";
+}
+
+titleWrapper.appendChild(titleEl);
+titleWrapper.appendChild(saveIcon);
+
+
+
+    const tagsEl = document.createElement("div");
+    tagsEl.className = "date-tags";
+    tagsEl.innerHTML = date.tags
+  .map(t => `<span class="tag-pill">${t}</span>`)
+  .join("");
+
+    tagsEl.contentEditable = editMode;
+
+    titleEl.addEventListener("blur", () => {
+      date.title = titleEl.textContent.trim();
+      saveCollection(dateCollection);
+    });
+
+    saveIcon.addEventListener("click", () => {
+  date.title = titleEl.textContent.trim();
+  saveCollection(dateCollection);
+
+  saveIcon.classList.add("saved");
+  setTimeout(() => saveIcon.classList.remove("saved"), 300);
+});
+
+
+    tagsEl.addEventListener("blur", () => {
+      date.tags = tagsEl.textContent
+  .split(" ")
+  .map(t => t.trim())
+  .filter(Boolean);
+
+      saveCollection(dateCollection);
+      renderDateList();
+    });
+
+    const actions = document.createElement("div");
+    actions.className = "date-actions";
+
+    const deleteBtn = document.createElement("button");
+    deleteBtn.className = "action-btn delete";
+    deleteBtn.textContent = "Löschen";
+
+    deleteBtn.addEventListener("click", () => {
+      const usedIn = Object.keys(selectedDates).filter(m =>
+        selectedDates[m].some(d => d.id === date.id)
+      );
+
+      let warning = "Date wirklich löschen?";
+      if (usedIn.length) {
+        warning =
+          `Dieses Date ist noch eingeplant in:\n\n${usedIn.join(", ")}\n\nTrotzdem löschen?`;
+      }
+
+      if (!confirm(warning)) return;
+
+      card.classList.add("removing");
+
+      setTimeout(() => {
+        dateCollection.splice(index, 1);
+        saveCollection(dateCollection);
+        renderDateList();
+      }, 300);
+    });
+
+    actions.appendChild(deleteBtn);
+    card.appendChild(titleWrapper);
+    card.appendChild(tagsEl);
+    card.appendChild(actions);
     dateListEl.appendChild(card);
   });
 }
 
-// Speichern (für später)
-localStorage.setItem(
-  "dateCollection",
-  JSON.stringify(dateCollection)
-);
+renderDateList();
 
 // =========================
-// DATE ADD FORM
+// EDIT MODE TOGGLE
 // =========================
+if (editBtn) {
+  editBtn.addEventListener("click", () => {
+    editMode = !editMode;
+    dateListEl.classList.toggle("edit-mode", editMode);
+    editBtn.textContent = editMode ? "✔️ Fertig" : "✏️ Bearbeiten";
+    renderDateList();
+  });
+}
 
-const addForm = document.getElementById("addDateForm");
-
+// =========================
+// ADD DATE FORM (FIXED)
+// =========================
 if (addForm) {
   const emojiInput = document.getElementById("dateEmoji");
   const titleInput = document.getElementById("dateTitle");
   const tagsInput = document.getElementById("dateTags");
   const addAnotherBtn = document.getElementById("addAnotherBtn");
 
-  let dateCollection =
-    JSON.parse(localStorage.getItem("dateCollection")) || [];
+  function addDate(clear) {
+    const dateCollection = getCollection();
 
-  function saveDate(clearForm) {
     const newDate = {
-  id: titleInput.value
-    .toLowerCase()
-    .replace(/\s+/g, "-"),
-  title: `${emojiInput.value} ${titleInput.value}`,
-  tags: tagsInput.value
-    .split(",")
-    .map(tag => tag.trim()),
-  file: "" // wird später manuell ergänzt
-};
-
+      id: titleInput.value
+        .toLowerCase()
+        .replace(/\s+/g, "-"),
+      title: `${emojiInput.value} ${titleInput.value}`.trim(),
+      tags: tagsInput.value
+        .split(",")
+        .map(t => t.trim())
+        .filter(Boolean),
+      file: ""
+    };
 
     dateCollection.push(newDate);
-    localStorage.setItem(
-      "dateCollection",
-      JSON.stringify(dateCollection)
-    );
+    saveCollection(dateCollection);
 
-    if (clearForm) {
+    if (clear) {
       emojiInput.value = "";
       titleInput.value = "";
       tagsInput.value = "";
@@ -107,15 +201,14 @@ if (addForm) {
     }
   }
 
-  addAnotherBtn.addEventListener("click", () => {
-    saveDate(true);
+  addAnotherBtn?.addEventListener("click", () => {
+    addDate(true);
   });
 
   addForm.addEventListener("submit", e => {
     e.preventDefault();
-    saveDate(false);
+    addDate(false);
     window.location.href =
       "/Geburtstag/50-collection/date-list.html";
   });
 }
-

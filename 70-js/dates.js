@@ -1,12 +1,6 @@
-// =========================
-// Monat aus URL lesen
-// =========================
 const params = new URLSearchParams(window.location.search);
 const month = params.get("month");
 
-// =========================
-// Monatsnamen
-// =========================
 const monthNames = {
   januar: "Januar ❄️",
   februar: "Februar 💖",
@@ -16,10 +10,7 @@ const monthNames = {
   juni: "Juni 🌸",
   juli: "Juli 🏄‍♀️",
   august: "August 🌻",
-  september: "September 🍂",
-  oktober: "Oktober 🎃",
-  november: "November 🍁",
-  dezember: "Dezember 🎄"
+  september: "September 🍂"
 };
 
 const monthSubtitles = {
@@ -33,80 +24,92 @@ const monthSubtitles = {
   september: "Goldene Momente 🍂"
 };
 
+const titleEl = document.getElementById("monthTitle");
 const subtitleEl = document.querySelector(".subtitle");
+const monthDatesEl = document.getElementById("monthDates");
+const editBtn = document.getElementById("editModeBtn");
+const addDateBtn = document.getElementById("addDateBtn");
+const emptyState = document.getElementById("emptyState");
 
-if (subtitleEl && month && monthSubtitles[month]) {
+if (titleEl && monthNames[month]) {
+  titleEl.textContent = monthNames[month];
+}
+if (subtitleEl && monthSubtitles[month]) {
   subtitleEl.textContent = monthSubtitles[month];
 }
 
-// Titel setzen
-const titleEl = document.getElementById("monthTitle");
+let editMode = false;
 
-if (titleEl && month && monthNames[month]) {
-  titleEl.textContent = monthNames[month];
-}
+function renderMonthDates() {
+  if (!monthDatesEl || !month) return;
 
-// =========================
-// Dates für Monat laden
-// =========================
-const monthDatesEl = document.getElementById("monthDates");
+  monthDatesEl.innerHTML = "";
 
-// Struktur:
-// selectedDates = {
-//   februar: [
-//     { id: "kinoabend", title: "Kinoabend", file: "/40-dates/date/februar/kinoabend.html" }
-//   ]
-// }
+  const selectedDates =
+    JSON.parse(localStorage.getItem("selectedDates")) || {};
 
-const selectedDates =
-  JSON.parse(localStorage.getItem("selectedDates")) || {};
+  const datesForMonth = selectedDates[month] || [];
 
-const datesForMonth = selectedDates[month] || [];
+  if (emptyState) {
+    emptyState.style.display =
+      datesForMonth.length ? "none" : "block";
+  }
 
-if (monthDatesEl) {
-  datesForMonth.forEach(date => {
+  datesForMonth.forEach((date, index) => {
+    const item = document.createElement("div");
+    item.className = "date-item";
+
     const link = document.createElement("a");
     link.href = date.file;
     link.className = "date-button";
     link.textContent = date.title;
-    monthDatesEl.appendChild(link);
+
+    const remove = document.createElement("button");
+    remove.className = "remove-date";
+    remove.textContent = "✕";
+
+    remove.addEventListener("click", e => {
+      e.preventDefault();
+      e.stopPropagation();
+
+      item.classList.add("removing");
+
+      setTimeout(() => {
+        datesForMonth.splice(index, 1);
+        selectedDates[month] = datesForMonth;
+        localStorage.setItem(
+          "selectedDates",
+          JSON.stringify(selectedDates)
+        );
+        renderMonthDates();
+      }, 300);
+    });
+
+    item.appendChild(link);
+    item.appendChild(remove);
+    monthDatesEl.appendChild(item);
   });
 }
 
+renderMonthDates();
 
-// =========================
-// + Button verlinken
-// =========================
-const addDateBtn = document.getElementById("addDateBtn");
+if (editBtn) {
+  editBtn.addEventListener("click", () => {
+    editMode = !editMode;
+    monthDatesEl.classList.toggle("edit-mode", editMode);
+    editBtn.textContent = editMode ? "✔️ Fertig" : "✏️ Bearbeiten";
+  });
+}
+
 if (addDateBtn && month) {
   addDateBtn.href =
     `/Geburtstag/50-collection/date-select.html?month=${month}`;
 }
 
-const emptyState = document.getElementById("emptyState");
-
-if (emptyState) {
-  if (datesForMonth.length === 0) {
-    emptyState.style.display = "block";
-  } else {
-    emptyState.style.display = "none";
-  }
-}
-
-
-// =========================
-// DATE SELECT PAGE
-// =========================
-
 const selectList = document.getElementById("dateSelectList");
-
 if (selectList) {
-  const params = new URLSearchParams(window.location.search);
-  const month = params.get("month");
-
   const dateCollection =
     JSON.parse(localStorage.getItem("dateCollection")) || [];
-
   const selectedDates =
     JSON.parse(localStorage.getItem("selectedDates")) || {};
 
@@ -117,18 +120,13 @@ if (selectList) {
 
     btn.addEventListener("click", () => {
       selectedDates[month] = selectedDates[month] || [];
-
-      const alreadyAdded = selectedDates[month]
-        .some(d => d.id === date.id);
-
-      if (!alreadyAdded) {
+      if (!selectedDates[month].some(d => d.id === date.id)) {
         selectedDates[month].push(date);
         localStorage.setItem(
           "selectedDates",
           JSON.stringify(selectedDates)
         );
       }
-
       window.location.href =
         `/Geburtstag/40-dates/month.html?month=${month}`;
     });
@@ -137,23 +135,8 @@ if (selectList) {
   });
 }
 
-
-// =========================
-// DATE SELECT – BACK BUTTON
-// =========================
-
 const backBtn = document.getElementById("backBtn");
-
-if (backBtn) {
-  const params = new URLSearchParams(window.location.search);
-  const month = params.get("month");
-
-  if (month) {
-    backBtn.href =
-      `/Geburtstag/40-dates/month.html?month=${month}`;
-  }
-}
-
-if (month) {
-  backBtn.textContent = `← Zurück zu ${month.charAt(0).toUpperCase() + month.slice(1)}`;
+if (backBtn && month) {
+  backBtn.href =
+    `/Geburtstag/40-dates/month.html?month=${month}`;
 }
