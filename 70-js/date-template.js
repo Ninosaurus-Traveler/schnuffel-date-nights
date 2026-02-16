@@ -175,3 +175,22 @@ if (doneBtn) {
     doneBtn.textContent = "💖 Erledigt";
   });
 }
+
+// =========================
+// BACK BUTTON
+// =========================
+
+const backBtn = document.getElementById("backBtn");
+
+if (backBtn) {
+  const month = params.get("month");
+
+  if (month) {
+    backBtn.href = `/Geburtstag/40-dates/month.html?month=${month}`;
+    backBtn.textContent =
+      `← Zurück zu ${month.charAt(0).toUpperCase() + month.slice(1)}`;
+  } else {
+    backBtn.href = "/Geburtstag/40-dates/index.html";
+    backBtn.textContent = "← Zurück zur Übersicht";
+  }
+}
