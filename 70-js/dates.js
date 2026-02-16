@@ -60,7 +60,7 @@ function renderMonthDates() {
     item.className = "date-item";
 
     const link = document.createElement("a");
-    link.href = date.file;
+    link.href = `/Geburtstag/40-dates/date-template.html?id=${date.id}&month=${month}`;
     link.className = "date-button";
     link.textContent = date.title;
 

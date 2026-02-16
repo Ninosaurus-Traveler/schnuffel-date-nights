@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Date Erinnerung 💕</title>
+
+  <link rel="stylesheet" href="/Geburtstag/60-css/style.css" />
+  <script src="/Geburtstag/70-js/date-template.js" defer></script>
+</head>
+<body class="date-template-body">
+
+  <main class="date-container">
+
+    <!-- 🌸 Header -->
+    <section class="date-header">
+      <h1 id="dateTitle">Unbekanntes Date ✨</h1>
+      <p id="dateSubtitle">Monat · Kategorie · Stimmung</p>
+      <div class="decor-stars">✨ 🌙 ✨</div>
+    </section>
+
+
+    <!-- 📆 Kalender -->
+<section class="date-card calendar-card">
+  <h2 id="calendarToggle" class="calendar-toggle">
+    📅 Unser Datum
+  </h2>
+
+  <div id="calendarGrid" class="calendar-grid"></div>
+</section>
+
+
+    <!-- 💌 Tagebuch -->
+    <section class="date-card memory-card">
+      <h2>💌 Unsere Erinnerung</h2>
+
+      <!-- Titel des Tages -->
+      <label class="memory-label">Titel des Tages</label>
+      <input 
+        type="text" 
+        id="memoryTitle" 
+        class="memory-input"
+        placeholder="z.B. Farben, Lachen & Sonnenuntergang 💕"
+      />
+
+      <!-- Haupttext -->
+      <label class="memory-label">Was ist passiert?</label>
+      <textarea 
+        id="memoryStory" 
+        class="memory-textarea"
+        placeholder="Erzähl hier eure Geschichte ✨"
+      ></textarea>
+
+      <!-- Highlight -->
+      <label class="memory-label">Was war besonders schön?</label>
+      <textarea 
+        id="memoryHighlight" 
+        class="memory-textarea small"
+        placeholder="Unser schönster Moment 💖"
+      ></textarea>
+
+      <!-- Gelernt -->
+      <label class="memory-label">Was haben wir gelernt?</label>
+      <textarea 
+        id="memoryLesson" 
+        class="memory-textarea small"
+        placeholder="Was nehmen wir mit? 🌱"
+      ></textarea>
+
+      <!-- Nächstes Mal -->
+      <label class="memory-label">Nächstes Mal wollen wir…</label>
+      <textarea 
+        id="memoryNext" 
+        class="memory-textarea small"
+        placeholder="Ideen für das nächste Date ✨"
+      ></textarea>
+    </section>
+
+
+    <!-- 📷 Fotos -->
+    <section class="date-card photo-card">
+      <h2>📷 Fotos</h2>
+
+      <div class="photo-upload" id="photoUpload">
+        <span>✨ Tippe hier um Fotos hinzuzufügen ✨</span>
+        <input type="file" id="imageInput" accept="image/*" multiple />
+      </div>
+
+      <div id="imageGallery" class="image-gallery"></div>
+    </section>
+
+
+    <!-- ❤️ Date erledigt -->
+    <button id="doneBtn" class="done-button">
+      💖 Date erledigt
+    </button>
+
+    <!-- 🔙 Zurück -->
+    <a id="backBtn" class="button-link secondary">
+      ← Zurück
+    </a>
+
+  </main>
+
+</body>
+</html>
