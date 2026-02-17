@@ -1022,21 +1022,61 @@ textarea {
   box-shadow: 0 4px 10px rgba(0,0,0,0.08);
   cursor: pointer;
   transition: all 0.2s ease;
+  position: relative;
+  border-radius: 20px;
+  transition: all 0.25s ease;
 }
 
 .calendar-day:hover {
   transform: scale(1.05);
 }
 
+/* =========================
+   💗 SELECTED HEART
+========================= */
+
 .calendar-day.selected {
-  background: #f45c8c;
+  position: relative;
+  background: #ff5f8f;
   color: white;
-  box-shadow: 0 0 14px rgba(244, 92, 140, 0.6);
+  font-weight: 700;
+  box-shadow: 0 8px 18px rgba(255, 95, 143, 0.4);
+}
+
+/* Herzform */
+.calendar-day.selected::before,
+.calendar-day.selected::after {
+  content: "";
+  position: absolute;
+  width: 50%;
+  height: 70%;
+  background: #ff5f8f;
+  border-radius: 50%;
+  top: -25%;
+}
+
+.calendar-day.selected::before {
+  left: 0;
+}
+
+.calendar-day.selected::after {
+  right: 0;
 }
 
 .calendar-day.empty {
   visibility: hidden;
 }
+
+.calendar-day.selected {
+  animation: heartPop 0.3s ease;
+}
+
+@keyframes heartPop {
+  0% { transform: scale(0.8); }
+  70% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+
 
 /* iPhone Optimierung */
 
@@ -1047,3 +1087,75 @@ textarea {
     font-size: 13px;
   }
 }
+
+/* =========================
+   📅 WEEKEND STYLE
+========================= */
+
+.calendar-day.weekend {
+  background: rgba(255, 105, 150, 0.06);
+  color: #8a3d5b;
+  font-weight: 600;
+}
+
+/* =========================
+   💗 SELECTED HEART
+========================= */
+
+.calendar-day.selected {
+  position: relative;
+  background: #ff5f8f;
+  color: white;
+  font-weight: 700;
+  box-shadow: 0 8px 18px rgba(255, 95, 143, 0.4);
+}
+
+/* Herzform */
+.calendar-day.selected::before,
+.calendar-day.selected::after {
+  content: "";
+  position: absolute;
+  width: 50%;
+  height: 70%;
+  background: #ff5f8f;
+  border-radius: 50%;
+  top: -25%;
+}
+
+.calendar-day.selected::before {
+  left: 0;
+}
+
+.calendar-day.selected::after {
+  right: 0;
+}
+
+.ical-btn {
+  margin-top: 18px;
+  padding: 10px 18px;
+  border-radius: 999px;
+  border: none;
+  background: #f3f0f2;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #7a4b57;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+  transition: all 0.2s ease;
+}
+
+.ical-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(0,0,0,0.12);
+}
+
+
+#calendarContent {
+  transition: all 0.3s ease;
+}
+
+#calendarContent.collapsed {
+  display: none;
+}
+
+

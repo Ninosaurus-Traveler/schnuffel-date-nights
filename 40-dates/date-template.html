@@ -6,7 +6,11 @@
   <title>Date Erinnerung 💕</title>
 
   <link rel="stylesheet" href="/Geburtstag/60-css/style.css" />
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="../70-js/supabase.js"></script>
   <script src="/Geburtstag/70-js/date-template.js" defer></script>
+  
 </head>
 <body class="date-template-body">
 
@@ -22,11 +26,15 @@
 
     <!-- 📆 Kalender -->
 <section class="date-card calendar-card">
-  <h2 id="calendarToggle" class="calendar-toggle">
-    📅 Unser Datum
-  </h2>
+  <h2 id="calendarToggle">📅 Unser Datum</h2>
 
-  <div id="calendarGrid" class="calendar-grid"></div>
+  <div id="calendarContent">
+    <div id="calendarGrid" class="calendar-grid"></div>
+
+    <button id="exportIcalBtn" class="ical-btn">
+      📅 Im Kalender speichern
+    </button>
+  </div>
 </section>
 
 
