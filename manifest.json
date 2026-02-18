@@ -1,7 +1,7 @@
 {
   "name": "Schnuffel Dates 💕",
-  "short_name": "Date App",
-  "start_url": "/Geburtstag/20-menu.html",
+  "short_name": "Schnuffel Dates",
+  "start_url": "/schnuffel-date-nights/",
   "display": "standalone",
   "background_color": "#fff6fa",
   "theme_color": "#ff6f91",

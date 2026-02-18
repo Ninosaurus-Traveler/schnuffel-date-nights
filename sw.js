@@ -1,9 +1,9 @@
 const CACHE_NAME = "date-app-v1";
 
 const urlsToCache = [
-  "/Geburtstag/20-menu.html",
-  "/Geburtstag/40-dates/index.html",
-  "/Geburtstag/60-css/style.css"
+  "20-menu.html",
+  "40-dates/index.html",
+  "60-css/style.css"
 ];
 
 self.addEventListener("install", event => {
