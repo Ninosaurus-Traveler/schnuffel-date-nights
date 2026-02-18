@@ -205,6 +205,6 @@ if (addForm) {
     }
 
     window.location.href =
-      "/Geburtstag/50-collection/date-list.html";
+      "../50-collection/date-list.html";
   });
 }

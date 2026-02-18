@@ -101,7 +101,7 @@ async function renderMonthDates() {
     const link = document.createElement("a");
     link.className = "date-button";
     link.href =
-      `/Geburtstag/40-dates/date-template.html?id=${entry.date_ideas.id}&month=${month}`;
+      `../40-dates/date-template.html?id=${entry.date_ideas.id}&month=${month}`;
 
     link.textContent =
       `${entry.date_ideas.emoji || "✨"} ${entry.date_ideas.title}`;
@@ -157,7 +157,7 @@ if (editBtn) {
 
 if (addDateBtn && month) {
   addDateBtn.href =
-    `/Geburtstag/50-collection/date-select.html?month=${month}`;
+    `../50-collection/date-select.html?month=${month}`;
 }
 
 // =========================
@@ -207,7 +207,7 @@ if (selectList && month) {
         }
 
         window.location.href =
-          `/Geburtstag/40-dates/month.html?month=${month}`;
+          `../40-dates/month.html?month=${month}`;
       });
 
       selectList.appendChild(btn);
@@ -223,5 +223,5 @@ const backBtn = document.getElementById("backBtn");
 
 if (backBtn && month) {
   backBtn.href =
-    `/Geburtstag/40-dates/month.html?month=${month}`;
+    `../40-dates/month.html?month=${month}`;
 }

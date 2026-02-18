@@ -308,7 +308,7 @@ function sparkle(el) {
 
 if (backBtn && month) {
   backBtn.href =
-    `/Geburtstag/40-dates/month.html?month=${month}`;
+    `../40-dates/month.html?month=${month}`;
 
   backBtn.textContent =
     `← Zurück zu ${month.charAt(0).toUpperCase() + month.slice(1)}`;
