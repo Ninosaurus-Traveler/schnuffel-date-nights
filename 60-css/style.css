@@ -137,22 +137,48 @@ button:hover {
 }
 
 .done-button {
-  margin: 2rem 0 1rem;
   width: 100%;
-  padding: 1rem;
-  font-size: 1.1rem;
+  padding: 14px;
+  border-radius: 20px;
   border: none;
-  border-radius: 12px;
-  background: #ff5e8a;
-  color: white;
+  font-size: 1.05rem;
+  font-weight: 600;
   cursor: pointer;
-  transition: background 0.2s ease;
+  transition: all 0.3s ease;
 }
 
-.done-button:disabled {
-  background: #bbb;
-  cursor: default;
+/* Default Zustand (grau) */
+.done-button:not(.active) {
+  background: #e7e3e5;
+  color: #8a6a75;
+  box-shadow: 0 6px 14px rgba(0,0,0,0.08);
 }
+
+/* Aktiv */
+.done-button.active {
+  background: #ff5f8f;
+  color: white;
+  box-shadow: 0 10px 22px rgba(255, 95, 143, 0.4);
+}
+
+/* Zurück Button */
+#backBtn {
+  margin-top: 16px;
+  display: inline-block;
+}
+
+@keyframes sparkle {
+  0% { opacity: 0; transform: translateY(0); }
+  50% { opacity: 1; transform: translateY(-10px); }
+  100% { opacity: 0; transform: translateY(-20px); }
+}
+
+@keyframes sparkleFloat {
+  0% { transform: scale(0.5); opacity: 1; }
+  100% { transform: translateY(-20px) scale(1.2); opacity: 0; }
+}
+
+
 .date-list {
   margin-top: 2rem;
   display: grid;
@@ -646,14 +672,22 @@ textarea {
   position: relative;
 }
 
+/* =========================
+   DELETE BUTTON (GLOBAL)
+========================= */
+
+.date-card {
+  position: relative;
+}
+
 .remove-date {
   position: absolute;
   top: 50%;
   right: 16px;
-  transform: translateY(-50%);
+  transform: translateY(-50%) scale(0.6);
 
-  width: 28px;
-  height: 28px;
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
   border: none;
 
@@ -664,10 +698,8 @@ textarea {
   align-items: center;
   justify-content: center;
 
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 600;
-  line-height: 1;
-  padding: 0;
 
   cursor: pointer;
 
@@ -675,25 +707,22 @@ textarea {
 
   opacity: 0;
   pointer-events: none;
-  transition: all 0.2s ease;
+
+  transition:
+    opacity 0.25s ease,
+    transform 0.25s cubic-bezier(.25,1.4,.3,1);
 }
 
-/* Nur im Edit Mode sichtbar */
 .edit-mode .remove-date {
   opacity: 1;
   pointer-events: auto;
+  transform: translateY(-50%) scale(1);
 }
 
 
 .remove-date:hover {
   transform: translateY(-50%) scale(1.1);
-  box-shadow:
-    0 10px 20px rgba(255, 92, 138, 0.45);
-}
-
-
-.edit-mode .remove-date {
-  display: block;
+  box-shadow: 0 10px 20px rgba(255, 92, 138, 0.45);
 }
 
 #editModeBtn {
@@ -710,10 +739,6 @@ textarea {
 #editModeBtn:hover {
   background: rgba(255, 255, 255, 0.8);
   color: #555;
-}
-
-.date-card {
-  position: relative;
 }
 
 .date-actions {
@@ -1151,11 +1176,121 @@ textarea {
 
 
 #calendarContent {
-  transition: all 0.3s ease;
+  max-height: 500px;
+  overflow: hidden;
+  transition:
+    max-height 0.4s ease,
+    opacity 0.3s ease,
+    transform 0.3s ease;
 }
 
 #calendarContent.collapsed {
-  display: none;
+  max-height: 0;
+  opacity: 0;
+  transform: translateY(-10px);
 }
 
+/* =========================
+   📱 MOBILE POLISH
+========================= */
 
+@media (max-width: 480px) {
+
+  body {
+    align-items: flex-start;
+    padding: 20px 0;
+  }
+
+  .container,
+  .date-container {
+    width: 92%;
+    padding: 24px 18px;
+    border-radius: 24px;
+  }
+
+  h1 {
+    font-size: 2rem;
+  }
+
+  .subtitle {
+    font-size: 1rem;
+  }
+
+}
+
+@media (max-width: 480px) {
+
+  .done-button {
+    width: 100%;
+    margin-top: 30px;
+    font-size: 1rem;
+  }
+
+  .button-link.secondary {
+    width: 70%;
+    margin: 16px auto 0;
+    display: block;
+    text-align: center;
+  }
+
+}
+
+@media (max-width: 480px) {
+
+  .calendar-grid {
+    gap: 8px;
+  }
+
+  .calendar-day {
+    width: 32px;
+    height: 32px;
+    font-size: 13px;
+  }
+
+}
+
+@media (max-width: 480px) {
+
+  .memory-textarea {
+    min-height: 140px;
+    font-size: 15px;
+  }
+
+  .memory-textarea.small {
+    min-height: 90px;
+  }
+
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
+}
+
+.date-card {
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.date-card:active {
+  transform: scale(0.98);
+}
+
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+button,
+.button-link,
+.calendar-day {
+  transition: transform 0.15s ease;
+}
+
+button:active,
+.button-link:active,
+.calendar-day:active {
+  transform: scale(0.95);
+}

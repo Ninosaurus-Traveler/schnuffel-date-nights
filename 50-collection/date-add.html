@@ -7,8 +7,20 @@
 
   <link rel="stylesheet" href="../60-css/style.css" />
 
+  <link rel="manifest" href="/Geburtstag/manifest.json">
+  <meta name="theme-color" content="#ff6f91">
+  <link rel="apple-touch-icon" href="/Geburtstag/assets/icon-192.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+
+
+  <!-- Supabase CDN -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <!-- Supabase Config -->
   <script src="../70-js/supabase.js"></script>
+
+  <!-- Collection Logic -->
   <script src="../70-js/collection.js" defer></script>
 </head>
 <body>
@@ -25,30 +37,31 @@
 
       <label>
         Emoji
-        <input type="text" id="dateEmoji" placeholder="🍿" maxlength="2" required />
+        <input type="text"
+               id="dateEmoji"
+               placeholder="🍿"
+               maxlength="2"
+               required />
       </label>
 
       <label>
         Titel
-        <input type="text" id="dateTitle" placeholder="Kinoabend zuhause" required />
+        <input type="text"
+               id="dateTitle"
+               placeholder="Kinoabend zuhause"
+               required />
       </label>
 
       <label>
-        Tags (3–4 Wörter, Komma-getrennt)
-        <input
-          type="text"
-          id="dateTags"
-          placeholder="ruhig, gemütlich, drinnen"
-          required
-        />
+        Tags (Komma-getrennt)
+        <input type="text"
+               id="dateTags"
+               placeholder="ruhig, gemütlich, drinnen"
+               required />
       </label>
 
-      <button type="button" id="addAnotherBtn" class="button-link">
-        ➕ Add one more date
-      </button>
-
       <button type="submit" class="button-link primary">
-        💾 Save
+        💾 Speichern
       </button>
 
     </form>
