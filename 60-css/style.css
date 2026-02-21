@@ -1231,3 +1231,10 @@ button:active,
   border: none;
   box-shadow: 0 8px 18px rgba(255, 105, 150, 0.35);
 }
+
+@media (max-width: 480px) {
+  .filter-pill {
+    font-size: 12px;
+    padding: 6px 12px;
+  }
+}
