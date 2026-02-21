@@ -318,8 +318,11 @@ textarea {
 
 .filter-row {
   display: flex;
-  gap: 0.5rem;
-  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  margin: 25px 0 10px 0;
+  padding: 0 10px;
 }
 
 .filter-tag {
@@ -1183,4 +1186,48 @@ button:active,
 .button-link:active,
 .calendar-day:active {
   transform: scale(0.95);
+}
+
+.filter-pill {
+  padding: 8px 16px;
+  border-radius: 999px;
+  border: 1px solid rgba(0,0,0,0.08);
+
+  background: rgba(255,255,255,0.85);
+  color: #5a3f4c;
+
+  font-size: 14px;
+  font-weight: 500;
+
+  cursor: pointer;
+  backdrop-filter: blur(6px);
+
+  transition: 
+    transform 0.2s ease,
+    background 0.25s ease,
+    box-shadow 0.25s ease,
+    color 0.25s ease;
+}
+
+.filter-pill:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(0,0,0,0.08);
+}
+
+.filter-pill:hover {
+  transform: translateY(-2px);
+}
+
+.filter-pill.active {
+  background: linear-gradient(135deg, #ff9eb5, #ff6f91);
+  color: white;
+  border: none;
+  box-shadow: 0 8px 18px rgba(255, 105, 150, 0.35);
+}
+
+.filter-pill.active {
+  background: linear-gradient(135deg, #ff9eb5, #ff6f91);
+  color: white;
+  border: none;
+  box-shadow: 0 8px 18px rgba(255, 105, 150, 0.35);
 }

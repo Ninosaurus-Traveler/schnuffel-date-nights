@@ -24,6 +24,7 @@ const dateListEl = document.getElementById("dateList");
 const editBtn = document.getElementById("editDateListBtn");
 
 let editMode = false;
+let activeFilters = [];
 
 // =========================
 // RENDER
@@ -35,7 +36,15 @@ async function renderDateList() {
   const dateCollection = await loadDateIdeas();
   dateListEl.innerHTML = "";
 
-  dateCollection.forEach(date => {
+  const filtered = dateCollection.filter(date => {
+    if (activeFilters.length === 0) return true;
+
+    return activeFilters.every(tag =>
+      (date.tags || []).includes(tag)
+    );
+  });
+
+  filtered.forEach(date => {
 
     const card = document.createElement("div");
     card.className = "date-card";
@@ -147,9 +156,11 @@ async function renderDateList() {
     card.appendChild(tagsEl);
     dateListEl.appendChild(card);
   });
+renderFilters(dateCollection);
 }
 
 renderDateList();
+
 
 // =========================
 // EDIT MODE TOGGLE
@@ -168,6 +179,45 @@ if (editBtn) {
       : "✏️ Bearbeiten";
 
     renderDateList();
+  });
+}
+
+function renderFilters(dateCollection) {
+
+  const filterRow = document.getElementById("filterRow");
+  if (!filterRow) return;
+
+  filterRow.innerHTML = "";
+
+  // Alle Tags sammeln
+  const allTags = new Set();
+
+  dateCollection.forEach(date => {
+    (date.tags || []).forEach(tag => allTags.add(tag));
+  });
+
+  [...allTags].sort().forEach(tag => {
+
+    const btn = document.createElement("button");
+    btn.className = "filter-pill";
+    btn.textContent = tag;
+
+    if (activeFilters.includes(tag)) {
+      btn.classList.add("active");
+    }
+
+    btn.addEventListener("click", () => {
+
+      if (activeFilters.includes(tag)) {
+        activeFilters = activeFilters.filter(t => t !== tag);
+      } else {
+        activeFilters.push(tag);
+      }
+
+      renderDateList();
+    });
+
+    filterRow.appendChild(btn);
   });
 }
 
