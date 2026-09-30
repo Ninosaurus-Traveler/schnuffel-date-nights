@@ -2,41 +2,91 @@
 <html lang="de">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Für dich ❤️</title>
-
-  <link rel="stylesheet" href="60-css/style.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Adventskalender für Schnuffel 💛</title>
 
   <link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#ff6f91">
-<link rel="apple-touch-icon" href="80-assets/icon-192.png">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="theme-color" content="#FFF6E9">
+  <link rel="apple-touch-icon" href="assets/icon-192.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="Schnuffel Dates">
+  <meta name="robots" content="noindex">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Nunito:wght@400;600;800&display=swap">
+
+  <link rel="stylesheet" href="css/advent.css?v=1" />
 </head>
 <body>
 
-  <main class="container">
-  <h1>Happy Birthday Schnuffel 🐰🎂</h1>
+  <!-- Lichterkette -->
+  <svg class="lights" viewBox="0 0 400 60" preserveAspectRatio="none" aria-hidden="true">
+    <path class="lights-wire" d="M-10 8 Q 40 42 100 18 T 200 18 T 300 18 T 410 12" />
+    <circle class="bulb b1" cx="30"  cy="26" r="6" />
+    <circle class="bulb b2" cx="75"  cy="30" r="6" />
+    <circle class="bulb b3" cx="125" cy="22" r="6" />
+    <circle class="bulb b4" cx="175" cy="30" r="6" />
+    <circle class="bulb b1" cx="225" cy="22" r="6" />
+    <circle class="bulb b2" cx="275" cy="30" r="6" />
+    <circle class="bulb b3" cx="325" cy="22" r="6" />
+    <circle class="bulb b4" cx="375" cy="26" r="6" />
+  </svg>
 
-  <p class="subtitle">
-    Ich hab dir eine kleine Überraschung gebaut 💕
-  </p>
+  <div class="sparkles" aria-hidden="true"></div>
 
-  <a href="10-start.html" class="button-link">
-  Klick hier für die Überraschung 🤭
-</a>
+  <header class="hero">
+    <p class="hero-eyebrow">für Schnuffel 💛</p>
+    <h1 class="hero-title">Adventskalender</h1>
+    <p class="hero-sub">Grüße aus der Heimat – 24 kleine Umarmungen</p>
+    <p class="countdown" id="countdown" aria-live="polite">&nbsp;</p>
+  </header>
 
+  <main class="calendar-wrap">
+    <div class="calendar" id="calendar" aria-label="Türchen"></div>
+    <p class="status" id="status" hidden></p>
+  </main>
 
-  <div id="surprise" class="hidden">
-    <p class="message">
-      Du bist mein Lieblingsmensch ❤️<br />
-      Schön, dass es dich gibt.
-    </p>
+  <footer class="footer">mit ganz viel Liebe gebaut 🐰</footer>
+
+  <!-- Türchen-Inhalt -->
+  <div class="sheet" id="sheet" role="dialog" aria-modal="true" aria-labelledby="sheetTitle" hidden>
+    <div class="sheet-backdrop" data-close></div>
+    <section class="sheet-panel" id="sheetPanel">
+      <div class="sheet-head" id="sheetHead">
+        <span class="sheet-grip" aria-hidden="true"></span>
+        <button class="sheet-close" type="button" data-close aria-label="Schließen">✕</button>
+      </div>
+      <div class="sheet-body" id="sheetBody">
+        <p class="sheet-eyebrow" id="sheetEyebrow"></p>
+        <h2 class="sheet-title" id="sheetTitle"></h2>
+        <div class="gallery" id="gallery"></div>
+        <div class="gallery-dots" id="galleryDots" aria-hidden="true"></div>
+        <article class="letter" id="letter">
+          <p class="letter-from" id="letterFrom"></p>
+          <p class="letter-text" id="letterText"></p>
+        </article>
+      </div>
+    </section>
   </div>
-</main>
 
-<script src="70-js/script.js"></script>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/supabase.js?v=1"></script>
+  <script src="js/demo.js?v=1"></script>
+  <script src="js/door.js?v=1"></script>
+  <script src="js/calendar.js?v=1"></script>
 
+  <script>
+    // Falls die alte App je einen Service Worker registriert hat: abmelden.
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.getRegistrations()
+        .then(regs => regs.forEach(r => r.unregister()))
+        .catch(() => {});
+    }
+  </script>
 </body>
 </html>
